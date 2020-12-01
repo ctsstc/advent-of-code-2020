@@ -2,7 +2,7 @@
   "name": "advent-of-code-2020",
   "version": "1.0.0",
   "description": "https://adventofcode.com/",
-    "engines": {
+  "engines": {
     "node": ">= 14.15 <15"
   },
   "devDependencies": {
