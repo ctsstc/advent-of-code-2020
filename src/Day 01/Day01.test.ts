@@ -1,3 +1,5 @@
+import Day01 from './Day01';
+
 describe('Day01', () => {
   const expenseReport = [1721, 979, 366, 299, 675, 1456];
   const product = 514579;
