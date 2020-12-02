@@ -7,7 +7,8 @@ export const lines = readFileSync(path)
   .split("\n");
 
 const passwords = lines.map(str => parser(str));
-export const validPasswords = passwords.filter(password => validate(password));
+export const validPasswords = passwords.filter(validate);
+export const validPasswords2 = passwords.filter(validatePart2);
 
 interface Password {
   lower: number,
@@ -40,4 +41,16 @@ function validate(password: Password) {
 
   const charCount = passwordHash[password.char];
   return charCount >= password.lower && charCount <= password.upper;
+}
+
+function validatePart2(password: Password) {
+  const char1 = password.pass[password.lower - 1];
+  const char2 = password.pass[password.upper - 1];
+
+  console.log({char1, char2, password});
+
+  return (
+    (char1 == password.char && char2 != password.char) ||
+    (char1 != password.char && char2 == password.char)
+  );
 }
