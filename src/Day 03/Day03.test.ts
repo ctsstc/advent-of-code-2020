@@ -38,7 +38,7 @@ describe('Day03', () => {
       expect(world).toMatchObject({x: 1, y: 1});
     });
 
-    describe('world horizontal wrapping', () => {
+    describe('Horizontal Wrapping', () => {
       it('moves almost off', () => {
         world.move(28, 1);
         expect(world).toMatchObject({x: 29, y: 2, position: tree});
