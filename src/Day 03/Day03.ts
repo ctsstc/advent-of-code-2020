@@ -35,6 +35,7 @@ export class World {
     this.y = 1;
   }
 
+  // Changed to a getter, so that it can be used in tests
   private get position() {
     return this.grid[this.y - 1][this.x - 1];
   }
