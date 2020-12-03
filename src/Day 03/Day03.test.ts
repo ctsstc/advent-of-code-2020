@@ -39,7 +39,7 @@ describe('Day03', () => {
   it('solves', () => {
     const world = new World(lines);
     const answer = Solver(world, 3, 1);
-    expect(answer).toEqual('fish');
+    expect(answer).toEqual(162);
   });
 
   it('solves problem 2', () => {
@@ -54,6 +54,6 @@ describe('Day03', () => {
     world.reset();
     const a5 = Solver(world, 1, 2);
 
-    expect(a1*a2*a3*a4*a5).toEqual('nope');
+    expect(a1*a2*a3*a4*a5).toEqual(3064612320);
   });
 });
