@@ -62,6 +62,10 @@ describe('Day03', () => {
   describe('Solver', () => {
     const world = new World(lines);
 
+    beforeEach(() => {
+      world.reset();
+    });
+
     it('solves problem 1', () => {
       const answer = Solver(world, 3, 1);
       expect(answer).toEqual(162);
