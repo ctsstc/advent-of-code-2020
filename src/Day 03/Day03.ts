@@ -27,7 +27,7 @@ export class World {
       this.x = this.x % this.width;
     }
 
-    return this.currentCell();
+    return this.position;
   }
 
   reset() {
@@ -35,7 +35,7 @@ export class World {
     this.y = 1;
   }
 
-  private currentCell() {
+  private get position() {
     return this.grid[this.y - 1][this.x - 1];
   }
 }
