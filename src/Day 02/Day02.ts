@@ -47,7 +47,7 @@ function validatePart2(password: Password) {
   const char1 = password.pass[password.lower - 1];
   const char2 = password.pass[password.upper - 1];
 
-  console.log({char1, char2, password});
+  // console.log({char1, char2, password});
 
   return (
     (char1 == password.char && char2 != password.char) ||
