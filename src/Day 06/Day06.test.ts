@@ -1,8 +1,8 @@
-import { Counter, Grouper, testLines, lines, Hasher, CountHasher } from './Day06';
+import { Counter, Grouper, exampleLines, lines, Hasher, CountHasher, groups, singleLineGroups, hashes, round1, allVote, round2 } from './Day06';
 
 describe('Day06', () => {
   describe('Example Tests', () => {
-    const groups = Grouper(testLines);
+    const groups = Grouper(exampleLines);
     const hasher = Hasher(groups);
 
     it('reads the file', () => {
@@ -38,6 +38,33 @@ describe('Day06', () => {
 
     it('counts round 2', () => {
       expect(CountHasher(hasher, groups)).toEqual(2971);
+    });
+  });
+
+  describe('testing', () => {
+
+    it('groups', () => {
+      expect(groups).toHaveLength(5);
+    });
+
+    it('removes spaces in groups', () => {
+      expect(singleLineGroups).toEqual(["abc", "abc", "abac", "aaaa", "b"]);
+    });
+
+    it('hashes groups', () => {
+      expect(hashes).toEqual([{"a": 1, "b": 1, "c": 1}, {"a": 1, "b": 1, "c": 1}, {"a": 2, "b": 1, "c": 1}, {"a": 4}, {"b": 1}]);
+    });
+
+    it('round1', () => {
+      expect(round1).toEqual(11);
+    });
+
+    it('allVote', () => {
+      expect(allVote).toEqual([["a", "b", "c"], [], ["a"], ["a"], ["b"]]);
+    });
+
+    it('round2', () => {
+      expect(round2).toEqual(6);
     });
   });
 });

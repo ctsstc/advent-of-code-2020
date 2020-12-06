@@ -6,9 +6,34 @@ export const lines = readFileSync(path)
   .toString()
   .split("\n");
 
-  export const testLines = readFileSync(pathJoin(__dirname, 'example.txt'))
+export const exampleLines = readFileSync(pathJoin(__dirname, 'example.txt'))
   .toString()
   .split("\n");
+
+
+export const testingLines = readFileSync(pathJoin(__dirname, 'example.txt')).toString();
+
+export const groups = testingLines.split("\n\n");
+export const singleLineGroups = groups.map((group) => group.replace(/\s/g, ''));
+export const hashes = singleLineGroups.map((group)=> {
+  return group.split('').reduce((hash, character) => {
+    if (character in hash) {
+      hash[character]++;
+    }
+    else {
+      hash[character] = 1;
+    }
+    return hash;
+  }, {});
+});
+
+export const round1 = hashes.reduce((count: number, hash) => count + Object.keys(hash).length, 0);
+
+export const groupVoterCount = groups.map((group) => group.split("\n").length);
+export const allVote = hashes.map((hash, idx) => Object.keys(hash)
+  .filter((character) => hash[character] == groupVoterCount[idx]));
+
+export const round2 = allVote.reduce((count: number, group: string[]) => count + group.length, 0);
 
 export function Grouper(lines: Array<string>): Array<Array<string>> {
 
