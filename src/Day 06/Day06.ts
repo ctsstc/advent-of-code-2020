@@ -17,12 +17,8 @@ export const groups = testingLines.split("\n\n");
 export const singleLineGroups = groups.map((group) => group.replace(/\s/g, ''));
 export const hashes = singleLineGroups.map((group)=> {
   return group.split('').reduce((hash, character) => {
-    if (character in hash) {
-      hash[character]++;
-    }
-    else {
-      hash[character] = 1;
-    }
+    const val = hash[character];
+    hash[character] = val ? val + 1 : 1;
     return hash;
   }, {});
 });
