@@ -17,8 +17,8 @@ export class Answers {
   get hashes() { return this.groups.map((group)=> group.hash);}
   get allVote() { return this.groups.map(group => group.allVoted); }
 
-  get round1() { return this.hashes.reduce((count: number, hash) => count + Object.keys(hash).length, 0); }
-  get round2() { return this.allVote.reduce((count: number, group: string[]) => count + group.length, 0); }
+  get round1() { return this.groups.reduce((count, group) => count + group.votedOn.length, 0); }
+  get round2() { return this.groups.reduce((count, group) => count + group.allVoted.length, 0); }
 }
 
 interface IGroup {
@@ -28,6 +28,7 @@ interface IGroup {
   voterCount: number;
   hash: object;
   allVoted: string[];
+  votedOn: string[];
 }
 
 function Group(str): IGroup {
@@ -37,6 +38,7 @@ function Group(str): IGroup {
   const voterCount = lines.length;
   const hash = characters.reduce(hashReducer, {});
   const allVoted = Object.keys(hash).filter((character) => hash[character] == voterCount);
+  const votedOn = Object.keys(hash);
 
   return {
     lines,
@@ -45,6 +47,7 @@ function Group(str): IGroup {
     voterCount,
     hash,
     allVoted,
+    votedOn
   }
 }
 
