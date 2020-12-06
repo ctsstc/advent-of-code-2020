@@ -7,10 +7,10 @@ export const lines = readFileSync(path).toString();
 export const exampleLines = readFileSync(examplePath).toString();
 
 export class Answers {
-  private groups: Group[];
+  private groups: IGroup[];
 
   constructor(lines: string) {
-    this.groups = lines.split("\n\n").map(group => new Group(group));
+    this.groups = lines.split("\n\n").map(Group);
   }
 
   get groupVoterCount() { return this.groups.map((group) => group.voterCount); }
@@ -23,24 +23,30 @@ export class Answers {
   get round2() { return this.allVote.reduce((count: number, group: string[]) => count + group.length, 0); }
 }
 
-class Group {
-  public lines: string[];
-  private noSpacesStr: string;
-  public voterCount: number;
-  private characters: string[];
-  public hash: object;
+interface IGroup {
+  lines: string[];
+  noSpacesStr: string;
+  characters: string[];
+  voterCount: number;
+  hash: object;
+}
 
-  constructor(str: string) {
-    this.lines = str.split("\n");
-    this.noSpacesStr = str.replace(/\s/g, '');
-    this.voterCount = this.lines.length;
-    this.characters = this.noSpacesStr.split('');
-    this.hash = this.characters.reduce(this.hasher, {});
-  }
+function Group(str): IGroup {
+  const lines = str.split("\n");
+  const noSpacesStr = str.replace(/\s/g, '');
+  const characters = noSpacesStr.split('');
 
-  private hasher(hash, character) {
-    const val = hash[character];
-    hash[character] = val ? val + 1 : 1;
-    return hash;
+  return {
+    lines,
+    noSpacesStr,
+    characters,
+    voterCount: lines.length,
+    hash: characters.reduce(hashReducer, {})
   }
+}
+
+function hashReducer(hash, character) {
+  const val = hash[character];
+  hash[character] = val ? val + 1 : 1;
+  return hash;
 }
