@@ -38,9 +38,33 @@ export function Counter(groups: Array<Array<string>>): number {
     const uniques = chars.split('').filter(Unique);
     return count + uniques.length;
   }, 0);
-  // line.split('').forEach(character => {
-  //   if (!(character in group)) {
-  //     group[character] = true;
-  //   }
-  // });
+}
+
+export function Hasher(groups: Array<Array<string>>) {
+  return groups.map((lines) => {
+    return lines.reduce((hash, line) => {
+      const chars = line.split('');
+      // console.log({chars, hash, line});
+
+      chars.forEach((char) => {
+        if (char in hash) {
+          hash[char]++;
+        }
+        else {
+          hash[char] = 1;
+        }
+      });
+
+      return hash;
+    }, {});
+  });
+}
+
+export function CountHasher(hasher, grouper) {
+  return hasher.reduce((count, hash, idx) => {
+    const groupLineCount = grouper[idx].length;
+    const matching = Object.values(hash).filter(value => value == groupLineCount);
+
+    return count + matching.length;
+  }, 0);
 }
