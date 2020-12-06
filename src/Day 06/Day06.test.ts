@@ -8,10 +8,6 @@ describe('Day06', () => {
       expect(answers.groups).toHaveLength(5);
     });
 
-    it('removes spaces in groups', () => {
-      expect(answers.singleLineGroups).toEqual(["abc", "abc", "abac", "aaaa", "b"]);
-    });
-
     it('hashes groups', () => {
       expect(answers.hashes).toEqual([
         {"a": 1, "b": 1, "c": 1},

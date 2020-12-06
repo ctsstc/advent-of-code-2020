@@ -7,19 +7,37 @@ export const lines = readFileSync(path).toString();
 export const exampleLines = readFileSync(examplePath).toString();
 
 export class Answers {
-  constructor(private lines: string) {}
+  private groups: Group[];
 
-  get groups() { return this.lines.split("\n\n"); }
-  get singleLineGroups() { return this.groups.map((group) => group.replace(/\s/g, '')); }
-  get groupVoterCount() { return this.groups.map((group) => group.split("\n").length); }
-  get hashes() { return this.singleLineGroups.map((group)=> group.split('').reduce(this.hasher, {}));}
+  constructor(lines: string) {
+    this.groups = lines.split("\n\n").map(group => new Group(group));
+  }
+
+  get groupVoterCount() { return this.groups.map((group) => group.voterCount); }
+  get hashes() { return this.groups.map((group)=> group.hash);}
 
   get allVote() { return this.hashes.map((hash, idx) => Object.keys(hash)
     .filter((character) => hash[character] == this.groupVoterCount[idx])); }
 
   get round1() { return this.hashes.reduce((count: number, hash) => count + Object.keys(hash).length, 0); }
   get round2() { return this.allVote.reduce((count: number, group: string[]) => count + group.length, 0); }
-  
+}
+
+class Group {
+  public lines: string[];
+  private noSpacesStr: string;
+  public voterCount: number;
+  private characters: string[];
+  public hash: object;
+
+  constructor(str: string) {
+    this.lines = str.split("\n");
+    this.noSpacesStr = str.replace(/\s/g, '');
+    this.voterCount = this.lines.length;
+    this.characters = this.noSpacesStr.split('');
+    this.hash = this.characters.reduce(this.hasher, {});
+  }
+
   private hasher(hash, character) {
     const val = hash[character];
     hash[character] = val ? val + 1 : 1;
