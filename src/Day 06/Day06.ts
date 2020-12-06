@@ -8,33 +8,28 @@ export const lines = readFileSync(path).toString();
 export const exampleLines = readFileSync(examplePath).toString();
 
 export class Answers {
-  public groups: IGroup[];
+  public round1: number;
+  public round2: number;
+  private groups: IGroup[];
 
   constructor(lines: string) {
     this.groups = lines.split("\n\n").map(Group);
+    this.round1 = this.groups.reduce((sum, group) => sum + group.votedOn.length, 0);
+    this.round2 = this.groups.reduce((sum, group) => sum + group.allVoted.length, 0);
   }
-
-  get round1() { return this.groups.reduce((sum, group) => sum + group.votedOn.length, 0); }
-  get round2() { return this.groups.reduce((sum, group) => sum + group.allVoted.length, 0); }
 }
 
 function Group(str): IGroup {
   const lines = str.split("\n");
+  const voterCount = lines.length;
   const noSpacesStr = str.replace(/\s/g, '');
   const characters = noSpacesStr.split('');
-  const voterCount = lines.length;
   const hash = characters.reduce(hashReducer, {});
-  const allVoted = Object.keys(hash).filter((character) => hash[character] == voterCount);
   const votedOn = Object.keys(hash);
 
   return {
-    lines,
-    noSpacesStr,
-    characters,
-    voterCount,
-    hash,
-    allVoted,
-    votedOn
+    votedOn,
+    allVoted: votedOn.filter((character) => hash[character] == voterCount),
   }
 }
 
