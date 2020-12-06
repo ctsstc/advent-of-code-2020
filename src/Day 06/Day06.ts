@@ -13,10 +13,6 @@ export class Answers {
     this.groups = lines.split("\n\n").map(Group);
   }
 
-  get groupVoterCount() { return this.groups.map((group) => group.voterCount); }
-  get hashes() { return this.groups.map((group)=> group.hash);}
-  get allVote() { return this.groups.map(group => group.allVoted); }
-
   get round1() { return this.groups.reduce((count, group) => count + group.votedOn.length, 0); }
   get round2() { return this.groups.reduce((count, group) => count + group.allVoted.length, 0); }
 }

@@ -8,19 +8,20 @@ describe('Day06', () => {
       expect(answers.groups).toHaveLength(5);
     });
 
-    it('hashes groups', () => {
-      expect(answers.hashes).toEqual([
-        {"a": 1, "b": 1, "c": 1},
-        {"a": 1, "b": 1, "c": 1},
-        {"a": 2, "b": 1, "c": 1},
-        {"a": 4},
-        {"b": 1}]
-      );
-    });
+    /// TODO: These should be tested via Group as different scenarios.
+    // it('hashes groups', () => {
+    //   expect(answers.hashes).toEqual([
+    //     {"a": 1, "b": 1, "c": 1},
+    //     {"a": 1, "b": 1, "c": 1},
+    //     {"a": 2, "b": 1, "c": 1},
+    //     {"a": 4},
+    //     {"b": 1}]
+    //   );
+    // });
 
-    it('allVote', () => {
-      expect(answers.allVote).toEqual([["a", "b", "c"], [], ["a"], ["a"], ["b"]]);
-    });
+    // it('allVote', () => {
+    //   expect(answers.allVote).toEqual([["a", "b", "c"], [], ["a"], ["a"], ["b"]]);
+    // });
 
     it('round1', () => {
       expect(answers.round1).toEqual(11);
