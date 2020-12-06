@@ -1,9 +1,10 @@
-import { Grouper, testLines } from './Day06';
+import { group } from 'console';
+import { Counter, Grouper, testLines } from './Day06';
 
-describe('Day00', () => {
+describe('Day06', () => {
+  const groups = Grouper(testLines);
+
   it('reads the file', () => {
-    const groups = Grouper(testLines);
-
     expect(groups).toEqual([
       ['abc'],
       ['a', 'b', 'c'],
@@ -11,5 +12,9 @@ describe('Day00', () => {
       ['a', 'a', 'a', 'a'],
       ['b']
     ]);
+  });
+
+  it('Counts ', () => {
+    expect(Counter(groups)).toEqual(11);
   });
 });

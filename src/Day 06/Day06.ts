@@ -28,11 +28,19 @@ export function Grouper(lines: Array<string>): Array<Array<string>> {
   }, []);
 }
 
-// export function Counter(groups: <Array<Array<string>>): number {
-//   return 5;
-//   // line.split('').forEach(character => {
-//   //   if (!(character in group)) {
-//   //     group[character] = true;
-//   //   }
-//   // });
-// }
+function Unique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+export function Counter(groups: Array<Array<string>>): number {
+  return groups.reduce((count, group) => {
+    const chars = group.join('');
+    const uniques = chars.split('').filter(Unique);
+    return count + uniques.length;
+  }, 0);
+  // line.split('').forEach(character => {
+  //   if (!(character in group)) {
+  //     group[character] = true;
+  //   }
+  // });
+}
