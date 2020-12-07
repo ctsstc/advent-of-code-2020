@@ -8,7 +8,7 @@ interface ITokenizer {
   contents: ITokenContainer[]
 }
 
-const containBagRegex = /(?<amount>\d+) (?<bag>.*) bags?/;
+const containBagRegex = /(?<amount>\d+) (?<name>.*) bags?/;
 
 export class BagFinder {
   constructor(private bagger: Baggifier) { }
@@ -74,14 +74,17 @@ export class Baggifier {
     // 1 drab brown bag, 3 dotted crimson bags
     const contents = contentsStr == 'no other bags' ? [] : contentsStr.split(', ')
       .map(bagContent => {
-      // 1 drab brown bag
-      // 3 dotted crimson bags
+        // 1 drab brown bag
+        // 3 dotted crimson bags
 
-      const groups = containBagRegex.exec(bagContent).groups; // won't let me destructure D:
-      return { amount: parseInt(groups.amount), name: groups.bag };
-    });
+        const { amount, name } = containBagRegex.exec(bagContent).groups;
+        return {
+          amount: parseInt(amount),
+          name
+        };
+      });
     // split: ["1 drab brown bag", "3 dotted crimson bags"]
-    // mapped: [{amount: 1, name: "drab brown"}, {amount: 3, name: "dotted crimson"}]
+      // mapped: [{amount: 1, name: "drab brown"}, {amount: 3, name: "dotted crimson"}]
 
     return {
       name: bag,
