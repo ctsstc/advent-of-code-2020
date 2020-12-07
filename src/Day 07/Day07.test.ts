@@ -17,16 +17,20 @@ describe('Day00', () => {
     });
 
     describe('Bag Finder', () => {
-      const bags = new BagFinder(bagger);
+      const finder = new BagFinder(bagger);
 
       it('has gold containers', () => {
-        expect(bags.containedIn('shiny gold')).toHaveLength(2);
+        expect(finder.containedIn('shiny gold')).toHaveLength(2);
       });
 
-      it('finds all', () => {
-        expect(bags.findAllPossible('shiny gold')).toEqual([
+      it('finds containers', () => {
+        expect(finder.findAllParentContainers('shiny gold')).toEqual([
           "bright white", "light red", "dark orange", "muted yellow"
         ]);
+      });
+
+      it('finds how many are within', () => {
+        expect(finder.bagsWithin('shiny gold')).toEqual(32);
       });
     });
   });
@@ -36,7 +40,7 @@ describe('Day00', () => {
     const finder = new BagFinder(bagger);
 
     it('finds all', () => {
-      const bags = finder.findAllPossible('shiny gold');
+      const bags = finder.findAllParentContainers('shiny gold');
       expect(bags).toHaveLength(300);
     });
   });

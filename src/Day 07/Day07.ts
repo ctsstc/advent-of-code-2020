@@ -26,7 +26,7 @@ const containBagRegex = /(?<amount>\d+) (?<bag>.*) bags?/;
 export class BagFinder {
   constructor(private bagger: Baggifier) { }
 
-  findAllPossible(bagName: string, found = []) {
+  findAllParentContainers(bagName: string, found = []) {
     const bases = this.containedIn(bagName);
 
     bases.forEach(bagContainer => {
@@ -35,7 +35,7 @@ export class BagFinder {
         found.push(color)
       }
 
-      this.findAllPossible(color, found);
+      this.findAllParentContainers(color, found);
     });
 
     return found;
@@ -45,6 +45,19 @@ export class BagFinder {
     return this.bagger.containers.filter((container) => {
       return container.bag.color == bagName;
     });
+  }
+
+  bagsWithin(bagName: string) {
+    const startBag = this.bagger.findBag(bagName);
+    let sum = 0;
+
+    startBag.containers.forEach(container => {
+      sum += container.amount;
+      const nestedAmount = container.amount * this.bagsWithin(container.bag.color);
+      sum += nestedAmount;
+    });
+
+    return sum;
   }
 }
 
@@ -60,6 +73,10 @@ export class Baggifier {
 
     // hydrate all contents next pass
     this.hydrateContents(tokenizedBags);
+  }
+
+  findBag(bagName: string): Bag {
+    return this.bags[bagName];
   }
 
   tokenize(line: string): ITokenizer {
@@ -115,11 +132,11 @@ export class Baggifier {
 }
 
 class Bag {
-  constructor(public color: string, public contains: BagContainer[] = []) { }
+  constructor(public color: string, public containers: BagContainer[] = []) { }
 
   addContainer(amount, bag): BagContainer {
     const bagAmount = new BagContainer(this, amount, bag);
-    this.contains.push(bagAmount);
+    this.containers.push(bagAmount);
     return bagAmount
   }
 }
