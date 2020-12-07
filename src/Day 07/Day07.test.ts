@@ -1,4 +1,4 @@
-import { Baggifier, exampleLines } from './Day07';
+import { Baggifier, BagFinder, exampleLines } from './Day07';
 
 describe('Day00', () => {
   describe('examples', () => {
@@ -16,12 +16,18 @@ describe('Day00', () => {
       expect(bagger.containers).toHaveLength(13);
     });
 
-    it('has gold containers', () => {
-      const bags = bagger.containers.filter((container) => {
-        return container.bag.color == 'shiny gold'
+    describe('Bag Finder', () => {
+      const bags = new BagFinder(bagger);
+
+      it('has gold containers', () => {
+        expect(bags.containedIn('shiny gold')).toHaveLength(2);
       });
 
-      expect(bags).toHaveLength(2);
+      it('finds all', () => {
+        expect(bags.findAllPossible('shiny gold')).toEqual([
+          "bright white", "light red", "dark orange", "muted yellow"
+        ]);
+      });
     });
   });
 });

@@ -23,6 +23,31 @@ interface ITokenizer {
 
 const containBagRegex = /(?<amount>\d+) (?<bag>.*) bags?/;
 
+export class BagFinder {
+  constructor(private bagger: Baggifier) { }
+
+  findAllPossible(bagName: string, found = []) {
+    const bases = this.containedIn(bagName);
+
+    bases.forEach(bagContainer => {
+      const { parent: { color } } = bagContainer;
+      if (!found.includes(color)) {
+        found.push(color)
+      }
+
+      this.findAllPossible(color, found);
+    });
+
+    return found;
+  }
+
+  containedIn(bagName: string): BagContainer[] {
+    return this.bagger.containers.filter((container) => {
+      return container.bag.color == bagName;
+    });
+  }
+}
+
 export class Baggifier {
   public bags: { [key: string]: Bag } = {};
   public containers: BagContainer[] = [];
@@ -100,5 +125,5 @@ class Bag {
 }
 
 class BagContainer {
-  constructor(public parent, public amount: number, public bag: Bag) { }
+  constructor(public parent: Bag, public amount: number, public bag: Bag) { }
 }
