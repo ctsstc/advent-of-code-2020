@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { join as pathJoin } from 'path';
-import { Baggifier as Bagger, BagFinder } from './Day07';
+import { Bagger, BagFinder } from './Day07';
 
 const path = pathJoin(__dirname, 'input.txt');
 export const lines = readFileSync(path)

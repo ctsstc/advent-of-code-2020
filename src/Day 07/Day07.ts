@@ -11,7 +11,7 @@ interface ITokenizer {
 const containBagRegex = /(?<amount>\d+) (?<name>.*) bags?/;
 
 export class BagFinder {
-  constructor(private bagger: Baggifier) { }
+  constructor(private bagger: Bagger) { }
 
   findAllParentContainers(bagName: string, found = []) {
     const bases = this.containedIn(bagName);
@@ -48,7 +48,7 @@ export class BagFinder {
   }
 }
 
-export class Baggifier {
+export class Bagger {
   public bags: { [key: string]: Bag } = {};
   public containers: BagContainer[] = [];
 
