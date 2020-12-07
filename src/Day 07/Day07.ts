@@ -77,12 +77,6 @@ export class Baggifier {
       // 1 drab brown bag
       // 3 dotted crimson bags
 
-      // console.log(bagContent);
-      // if (!containBagRegex.exec(bagContent).groups) {
-      //   console.log(containBagRegex.exec(bagContent));
-      // }
-      // console.log(bagContent, containBagRegex.exec(bagContent));
-
       const groups = containBagRegex.exec(bagContent).groups; // won't let me destructure D:
       return { amount: parseInt(groups.amount), name: groups.bag };
     });
