@@ -1,8 +1,8 @@
-import { Baggifier, BagFinder, exampleLines } from './Day07';
+import { Baggifier as Bagger, BagFinder, exampleLines, lines } from './Day07';
 
 describe('Day00', () => {
   describe('examples', () => {
-    const bagger = new Baggifier(exampleLines);
+    const bagger = new Bagger(exampleLines);
 
     it('has bags', () => {
       expect(Object.keys(bagger.bags)).toEqual([
@@ -28,6 +28,16 @@ describe('Day00', () => {
           "bright white", "light red", "dark orange", "muted yellow"
         ]);
       });
+    });
+  });
+
+  describe('real meal deal', () => {
+    const bagger = new Bagger(lines);
+    const finder = new BagFinder(bagger);
+
+    it('finds all', () => {
+      const bags = finder.findAllPossible('shiny gold');
+      expect(bags).toHaveLength(300);
     });
   });
 });
