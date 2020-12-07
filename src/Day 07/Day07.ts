@@ -95,9 +95,9 @@ export class Baggifier {
     });
   }
 
-  private hydrateBag(name: string, contents: BagContainer[] = []) {
+  private hydrateBag(name: string) {
     if (!(name in this.bags)) {
-      this.bags[name] = new Bag(name, contents);
+      this.bags[name] = new Bag(name);
     }
   }
 
@@ -113,7 +113,9 @@ export class Baggifier {
 }
 
 class Bag {
-  constructor(public color: string, public containers: BagContainer[] = []) { }
+  public containers: BagContainer[] = []
+
+  constructor(public color: string) { }
 
   addContainer(amount, bag): BagContainer {
     const bagAmount = new BagContainer(this, amount, bag);
