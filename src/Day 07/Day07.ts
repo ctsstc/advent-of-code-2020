@@ -69,7 +69,7 @@ export class Baggifier {
   tokenize(line: string): ITokenizer {
     // mirrored beige bags contain 1 drab brown bag, 3 dotted crimson bags.
     let [bag, contentsStr] = line.split(' bags contain ');
-    // mirrored beige bags           1 drab brown bag, 3 dotted crimson bags.
+    // mirrored beige              1 drab brown bag, 3 dotted crimson bags.
     contentsStr = contentsStr.slice(0, -1); // remove period
     // 1 drab brown bag, 3 dotted crimson bags
     const contents = contentsStr == 'no other bags' ? [] : contentsStr.split(', ')
