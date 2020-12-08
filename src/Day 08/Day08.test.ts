@@ -16,8 +16,16 @@ describe('Day08', () => {
   describe('Example Data', () => {
     const runner = new Runner(exampleLines);
 
-    it('reads the file', () => {
+    it('finds the accumulator', () => {
       expect(runner.execute()).toEqual(5);
+    });
+  });
+
+  describe('Real Data', () => {
+    const runner = new Runner(lines);
+
+    it('finds the accumulator', () => {
+      expect(runner.execute()).toEqual(1939);
     });
   });
 });
