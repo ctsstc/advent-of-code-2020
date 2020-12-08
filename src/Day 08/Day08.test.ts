@@ -19,6 +19,10 @@ describe('Day08', () => {
     it('finds the accumulator', () => {
       expect(runner.execute()).toEqual(5);
     });
+
+    it('finds an end', () => {
+      expect(runner.executeMakeEnd()).toEqual(8);
+    });
   });
 
   describe('Real Data', () => {
@@ -26,6 +30,10 @@ describe('Day08', () => {
 
     it('finds the accumulator', () => {
       expect(runner.execute()).toEqual(1939);
+    });
+
+    it('finds an end', () => {
+      expect(runner.executeMakeEnd()).toEqual(2212);
     });
   });
 });

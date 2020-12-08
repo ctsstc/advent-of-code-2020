@@ -20,23 +20,59 @@ export class Runner {
 
   constructor(private lines: string[]) { }
 
+  // Since the brute force calls this many times we should only parse once
   execute() {
-    while(this.lineNotYetRan) {
-      this.act(this.currentLine);
+    while(this.lineNotYetRan() && !this.finished()) {
+      const parsed = this.parse(this.currentLine);
+      this.act(parsed);
     }
 
     return this.total;
   }
 
-  private act(line: string) {
+  // Nasty Brute Force Technique
+  //  Could try other techniques; could some kind of backtracking work?
+  //  Look at positive nops and see if they can get us over the last negative jmp found
+  //  It may not need to get over the last negative jmp, there could be an unused section
+  //    that includes instructions to get us to the end.
+  executeMakeEnd() {
+    for (let i = 0; i < this.lines.length; i++) {
+      const currentLine = this.lines[i];
+      const instruction = this.parse(currentLine);
+
+      instruction.flipFlop();
+      this.replace(i, instruction);
+      this.execute();
+
+      if (this.finished()) {
+        console.log("FINISHED", i);
+        return this.total;
+      }
+
+      instruction.flipFlop();
+      this.replace(i, instruction);
+      this.reset();
+    }
+
+    return -1;
+  }
+
+  private replace(lineNumber: number, instruction: Instruction) {
+    this.lines[lineNumber] = instruction.toString();
+  }
+
+  private parse(line: string): Instruction {
     const [action, amountStr] = line.split(' ');
     const amount = parseInt(amountStr); // JS can handle the signs
+    return new Instruction(action, amount);
+  }
 
+  private act({action, amount}: Instruction) {
     this.linesRan.push(this.currentLineIdx);
     this.actions[action](amount);
   }
 
-  private get lineNotYetRan(): boolean {
+  private lineNotYetRan(): boolean {
     return !this.linesRan.includes(this.currentLineIdx);
   }
 
@@ -44,59 +80,41 @@ export class Runner {
     return this.lines[this.currentLineIdx];
   }
 
-  // read() {
-  //   this.lines.forEach(line => {
-        // convert into actions and then run them
-  //   });
-  // }
+  private finished(): boolean {
+    return this.currentLineIdx >= this.lines.length;
+  }
 
-  // applyActionResponse({increase, lineDiff}: IActionResponse) {
-  //   if(increase) {
-  //     this.total += increase;
-  //   }
-  //   if(lineDiff) {
-  //     this.currentLine += this.currentLine;
-  //   }
-  // }
+  private reset() {
+    this.currentLineIdx = 0;
+    this.total = 0;
+    this.linesRan = [];
+  }
 
 }
 
-// interface IAction {
-//   constructor: (amount: number) => any
-//   execute(): IActionResponse
-// }
+class Instruction {
+  private flipFlops = {
+    jmp: 'nop',
+    nop: 'jmp'
+  };
+  private flipFlopKeys = Object.keys(this.flipFlops);
+  public flipFlopable = this.flipFlopKeys.includes(this.action);
+  private originalAction = this.action;
 
-// interface IActionResponse {
-//   increase?: number,
-//   lineDiff?: number
-// }
+  constructor(public action: string, public amount: number) {}
 
-// class Countable {
-//   constructor(protected timesRan: number = 0) { }
-// }
+  toString() {
+    return `${this.action} ${this.amount}`;
+  }
 
-// class Acc extends Countable implements IAction {
-//   constructor(amount: number) { super(); }
+  flipFlop(): boolean {
+    if (this.flipFlopable) {
+      this.action = this.flipFlops[this.action];
+    }
+    return this.flipFlopable;
+  }
 
-//   execute() {
-//     return {
-//       increase: 2
-//     };
-//   }
-// }
-
-// class Jmp extends Countable implements IAction {
-//   constructor() { super(); }
-
-//   execute() {
-
-//   }
-// }
-
-// class Nop extends Countable implements IAction {
-//   constructor() { super(); }
-
-//   execute() {
-
-//   }
-// }
+  rest() {
+    this.action = this.originalAction;
+  }
+}
