@@ -22,7 +22,6 @@ describe('Day10', () => {
   describe('Solution 1', () => {
     it('Example 1', () => {
       const sol = new Day10(exampleLines).solution()
-      console.log({sol});
       expect(sol['1'] * sol['3']).toEqual(7*5);
     });
     it('Example 2', () => {
