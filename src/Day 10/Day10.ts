@@ -43,7 +43,9 @@ export class Day10 {
 
     for (let i = 0; i < amount; i++) {
       const offset = i + 1;
-      if (idx > i && current - this.lines[idx - offset] <= amount) {
+      const next = this.lines[idx - offset];
+      const diff = current - next;
+      if (idx > i && diff <= amount) {
         count++;
       }
     }
