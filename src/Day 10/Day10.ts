@@ -45,18 +45,15 @@ export class Day10 {
     return memo.get(this.lines.length - 1);
   }
 
-  private plugabilities(idx: number) {
+  private plugabilities(idx: number, amount = 3) {
     const current = this.lines[idx];
     let count = 0;
 
-    if (idx > 0 && current - this.lines[idx-1] <= 3) {
-      count++;
-    }
-    if (idx > 1 && current - this.lines[idx-2] <= 3) {
-      count++;
-    }
-    if (idx > 2 && current - this.lines[idx-3] <= 3) {
-      count++;
+    for (let i = 0; i < amount; i++) {
+      const offset = i + 1;
+      if (idx > i && current - this.lines[idx - offset] <= 3) {
+        count++;
+      }
     }
 
     return count;
