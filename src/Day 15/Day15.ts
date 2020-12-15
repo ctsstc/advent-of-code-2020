@@ -1,8 +1,15 @@
 
 export class Day15 {
-  public lines = this.linesStr.split(',').map(line => parseInt(line));
+  private lines = this.linesStr.split(',').map(line => parseInt(line));
+  private lastSeen = new Map();
 
-  constructor(private linesStr: string) {}
+  constructor(private linesStr: string) {
+    this.lines.forEach((line, idx) =>  {
+      if (idx != this.lines.length - 1) {
+        this.lastSeen.set(line, idx);
+      }
+    });
+  }
 
   solve(stopNumber: number): number {
     while(this.lines.length < stopNumber) {
@@ -13,12 +20,18 @@ export class Day15 {
   }
 
   nextNumber() {
-    if (this.firstTimeSeen) {
+    const lastIdx = this.lines.length - 1;
+    const numberBeforeAdd = this.lastNumber;
+
+    if (this.firstTimeSeen()) {
       this.lines.push(0);
     }
     else {
-      this.lines.push(this.indexDiff);
+      const diff = this.indexDiff();
+      this.lines.push(diff);
     }
+
+    this.lastSeen.set(numberBeforeAdd, lastIdx);
   }
 
   get workingSet(): number[] {
@@ -29,19 +42,17 @@ export class Day15 {
     return this.lines[this.lines.length - 1];
   }
 
-  get firstTimeSeen(): boolean {
-    // console.log("LAST NUM", this.lastNumber, "last index", this.lastIndex);
-    return !this.workingSet.includes(this.lastNumber);
+  firstTimeSeen(): boolean {
+    return !this.lastSeen.has(this.lastNumber);
   }
 
   get lastIndex(): number {
-    return this.workingSet.lastIndexOf(this.lastNumber);
+    return this.lastSeen.get(this.lastNumber);
   }
 
-  get indexDiff(): number {
+  indexDiff(): number {
     const currentIndex = this.lines.length;
     const previousIndex = this.lastIndex + 1;
-    // console.log({currentIndex, previousIndex});
     return currentIndex - previousIndex;
   }
 }

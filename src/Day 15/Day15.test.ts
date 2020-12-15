@@ -14,15 +14,22 @@ const exampleLines = readFileSync(examplePath)
   .split("\n")[0];
 
 describe('Day15', () => {
-  it('reads the file', () => {
-    const day15 = new Day15(exampleLines);
-    const solve = day15.solve(2020);
-    expect(solve).toEqual(436);
+  describe('Example Data', () => {
+    it('Solves Part 1', () => {
+      const day15 = new Day15(exampleLines);
+      const solve = day15.solve(2020);
+      expect(solve).toEqual(436);
+    });
   });
-
-  it('Solves Part 1', () => {
-    const day15 = new Day15(lines);
-    expect(day15.solve(2020)).toEqual(1009);
+  describe('Read Data', () => {
+    it('Solves Part 1', () => {
+      const day15 = new Day15(lines);
+      expect(day15.solve(2020)).toEqual(1009);
+    });
+    it('Solves Part 2', () => {
+      const day15 = new Day15(lines);
+      expect(day15.solve(30000000)).toEqual(62714);
+    });
   });
 
 });
