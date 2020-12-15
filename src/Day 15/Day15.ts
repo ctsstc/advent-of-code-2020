@@ -1,7 +1,7 @@
 
 export class Day15 {
   private lines = this.linesStr.split(',').map(line => parseInt(line));
-  private lastSeen = new Map();
+  private lastSeen: Map<number, number> = new Map();
 
   constructor(private linesStr: string) {
     this.lines.forEach((line, idx) =>  {
