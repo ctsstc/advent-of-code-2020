@@ -5,9 +5,8 @@ export class Day15 {
 
   constructor(private linesStr: string) {
     this.lines.forEach((line, idx) =>  {
-      if (idx != this.lines.length - 1) {
-        this.lastSeen.set(line, idx);
-      }
+      if (idx == this.lines.length - 1) return;
+      this.lastSeen.set(line, idx);
     });
   }
 
@@ -23,14 +22,7 @@ export class Day15 {
     const lastIdx = this.lines.length - 1;
     const numberBeforeAdd = this.lastNumber;
 
-    if (this.firstTimeSeen()) {
-      this.lines.push(0);
-    }
-    else {
-      const diff = this.indexDiff();
-      this.lines.push(diff);
-    }
-
+    this.lines.push(this.firstTimeSeen() ? 0 : this.indexDiff());
     this.lastSeen.set(numberBeforeAdd, lastIdx);
   }
 
