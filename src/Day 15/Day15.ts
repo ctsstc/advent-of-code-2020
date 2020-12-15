@@ -4,8 +4,9 @@ export class Day15 {
   private lastSeen: Map<number, number> = new Map();
 
   constructor(private linesStr: string) {
+    const lastIndex = this.lines.length - 1;
     this.lines.forEach((line, idx) =>  {
-      if (idx == this.lines.length - 1) return;
+      if (idx == lastIndex) return;
       this.lastSeen.set(line, idx);
     });
   }
