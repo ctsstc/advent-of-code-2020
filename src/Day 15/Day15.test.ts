@@ -21,7 +21,7 @@ describe('Day15', () => {
       expect(solve).toEqual(436);
     });
   });
-  describe('Read Data', () => {
+  describe('Real Data', () => {
     it('Solves Part 1', () => {
       const day15 = new Day15(lines);
       expect(day15.solve(2020)).toEqual(1009);
