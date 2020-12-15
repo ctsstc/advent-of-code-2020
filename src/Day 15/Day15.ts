@@ -34,10 +34,6 @@ export class Day15 {
     this.lastSeen.set(numberBeforeAdd, lastIdx);
   }
 
-  get workingSet(): number[] {
-    return this.lines.slice(0, this.lines.length - 1);
-  }
-
   get lastNumber(): number {
     return this.lines[this.lines.length - 1];
   }
