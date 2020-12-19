@@ -61,6 +61,10 @@ class Rule {
   }
 
   execute(): string {
+    if (this.base) {
+      return this.base;
+    }
+
     if (this.type == RuleType.Rule) {
       const rulesStr = this.line.split(': ')[1];
       const options = rulesStr.split(' | ');
@@ -80,10 +84,9 @@ class Rule {
         return ruled;
       });
 
-      const ord = perms.join('|');
-      // console.log({ord});
-
-      return `(${ord})`;
+      const base = `(${perms.join('|')})`
+      this.base = base;
+      return base;
     }
 
     return this.base;
