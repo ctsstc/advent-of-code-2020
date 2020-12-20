@@ -30,16 +30,31 @@ export class Day20 {
     });
 
     // console.log(sides);
+    const translateTileType = {
+      0: 'insides',
+      1: 'edges',
+      2: 'corners'
+    }
 
-    const corners = this.tiles.filter(tile => {
-      const unmatchedSides = tile.sides.reduce((count, side) => {
+    const tilesUnmatchedSides = this.tiles.reduce((singleSides, tile) => {
+      const singleSidesCount = tile.sides.reduce((count, side) => {
         if (sides.get(side.id).length == 1) count++;
         return count;
       }, 0);
 
-      return unmatchedSides == 2;
+      const typeType = translateTileType[singleSidesCount];
+      singleSides[typeType].push(tile);
+
+      return singleSides;
+    }, {
+      insides: [],
+      edges: [],
+      corners: []
     });
 
+    console.log(tilesUnmatchedSides);
+
+    const corners = tilesUnmatchedSides.corners;
     console.log(corners.map(x => x.id));
 
     return corners.reduce((total, tile) => total * tile.id, 1);
