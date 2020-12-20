@@ -87,20 +87,40 @@ export class Day20 {
 }
 
 class Tile {
+  public top: Side;
+  public right: Side;
+  public bottom: Side;
+  public left: Side;
   public sides: Side[];
+  public borderless: string[];
 
   constructor(public id: number, lines: string[]) {
-    const top = new Side(lines[0])
-    const right = this.getRightSide(lines);
-    const bottom = new Side(lines[lines.length - 1]);
-    const left = this.getLeftSide(lines);
+    this.top = new Side(lines[0])
+    this.right = this.getRightSide(lines);
+    this.bottom = new Side(lines[lines.length - 1]);
+    this.left = this.getLeftSide(lines);
 
     this.sides = [
-      top,
-      right,
-      bottom,
-      left
+      this.top,
+      this.right,
+      this.bottom,
+      this.left
     ];
+
+    this.borderless = this.getBorderless(lines);
+  }
+
+  private getBorderless(lines: string[]): string[] {
+    const copy = [...lines];
+    copy.shift(); // remove first line
+    copy.pop(); // remove last line
+
+    return copy.map(copy => {
+      const chars = copy.split('');
+      chars.shift();
+      chars.pop();
+      return chars.join('');
+    });
   }
 
   private getLeftSide(lines: string[]): Side {
@@ -119,7 +139,6 @@ class Tile {
       return sb;
     }, '');
   }
-
 }
 
 class Side {
