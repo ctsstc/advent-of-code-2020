@@ -134,13 +134,12 @@ class Side {
   private strToNum(str: string): number {
     str = str.replace(/\./g, '0');
     str = str.replace(/#/g, '1');
-    // console.log({str});
     return parseInt(str, 2);
   }
 
   private reverseNum(num: number): number {
     const bin = num.toString(2);
-    const tenWide = bin.padStart(10, '0');
+    const tenWide = bin.padStart(10, '0'); // Make sure that we don't reverse a number like 101 to 101
     const reversed = tenWide.split('').reverse().join('');
     return parseInt(reversed, 2);
   }
