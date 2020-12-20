@@ -42,34 +42,6 @@ export class Day20 {
 
     console.log(corners.map(x => x.id));
 
-    // const sidesBelongingToOneTile: Map<number, Tile> = new Map();
-    // sides.forEach((tiles, sideNum) => {
-    //   if (tiles.length == 1) {
-    //     // console.log("AYUEEEEEEEE");
-    //     // found[sideNum] = tiles;
-    //     // console.log(tiles);
-
-
-    //     // dedupe by ordering
-    //     // tiles.sort((a, b) => a.id - b.id);
-    //     // const keyIds = tiles.map(tile => tile.id);
-    //     // const strKey = JSON.stringify(keyIds);
-    //     sidesBelongingToOneTile.set(sideNum, tiles[0]);
-    //   }
-    // });
-
-    // // console.log(sidesBelongingToOneTile);
-
-    // const tileSides = {};
-    // sidesBelongingToOneTile.forEach((tile, sideNumber) => {
-    //   // console.log(tile);
-    //   if (!(tile.id in tileSides)) tileSides[tile.id] = [];
-    //   tileSides[tile.id].push(sideNumber);
-    // });
-
-    // console.log(tileSides);
-
-
     return corners.reduce((total, tile) => total * tile.id, 1);
   }
 
@@ -139,10 +111,7 @@ class Side {
   public smallerNum: number;
 
   constructor(private str: string) {
-    // ## buffer container, fixes reversing issue where '000101' turns into: '101' and is the same reversed
-    // Could have used padding
-    const padStr = `#${this.str}#`;
-    const forwardNum = this.strToNum(padStr);
+    const forwardNum = this.strToNum(this.str);
     const backwardNum = this.reverseNum(forwardNum);
     this.smallerNum = Math.min(forwardNum, backwardNum);
   }
@@ -156,7 +125,8 @@ class Side {
 
   private reverseNum(num: number): number {
     const bin = num.toString(2);
-    const reversed = bin.split('').reverse().join('');
+    const tenWide = bin.padStart(10, '0');
+    const reversed = tenWide.split('').reverse().join('');
     return parseInt(reversed, 2);
   }
 }
