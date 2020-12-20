@@ -17,14 +17,14 @@ export class Day20 {
     // Create Sides Collection
     this.tiles.forEach(tile => {
       tile.sides.forEach(side => {
-        if (sides.has(side.smallerNum)) {
-          const foundSides = sides.get(side.smallerNum);
+        if (sides.has(side.id)) {
+          const foundSides = sides.get(side.id);
           if (!foundSides.includes(tile)) {
             foundSides.push(tile);
           }
         }
         else {
-          sides.set(side.smallerNum, [tile]);
+          sides.set(side.id, [tile]);
         }
       });
     });
@@ -33,7 +33,7 @@ export class Day20 {
 
     const corners = this.tiles.filter(tile => {
       const unmatchedSides = tile.sides.reduce((count, side) => {
-        if (sides.get(side.smallerNum).length == 1) count++;
+        if (sides.get(side.id).length == 1) count++;
         return count;
       }, 0);
 
@@ -69,22 +69,19 @@ export class Day20 {
 }
 
 class Tile {
-  public top: Side;
-  public right: Side;
-  public bottom: Side;
-  public left: Side;
   public sides: Side[];
 
   constructor(public id: number, lines: string[]) {
-    this.top = new Side(lines[0])
-    this.right = this.getRightSide(lines);
-    this.bottom = new Side(lines[lines.length - 1]);
-    this.left = this.getLeftSide(lines);
+    const top = new Side(lines[0])
+    const right = this.getRightSide(lines);
+    const bottom = new Side(lines[lines.length - 1]);
+    const left = this.getLeftSide(lines);
+
     this.sides = [
-      this.top,
-      this.right,
-      this.bottom,
-      this.left
+      top,
+      right,
+      bottom,
+      left
     ];
   }
 
@@ -108,12 +105,12 @@ class Tile {
 }
 
 class Side {
-  public smallerNum: number;
+  public id: number;
 
   constructor(private str: string) {
     const forwardNum = this.strToNum(this.str);
     const backwardNum = this.reverseNum(forwardNum);
-    this.smallerNum = Math.min(forwardNum, backwardNum);
+    this.id = Math.min(forwardNum, backwardNum);
   }
 
   private strToNum(str: string): number {
