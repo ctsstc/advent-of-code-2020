@@ -3,10 +3,10 @@ import { readFileSync } from 'fs';
 import { join as pathJoin } from 'path';
 import { Day20 } from './Day20';
 
-// const path = pathJoin(__dirname, 'input.txt');
-// const lines = readFileSync(path)
-//   .toString().trim()
-//   .split("\n");
+const path = pathJoin(__dirname, 'input.txt');
+const lines = readFileSync(path)
+  .toString()
+  .split("\n");
 
 const examplePath = pathJoin(__dirname, 'example.txt');
 const exampleLines = readFileSync(examplePath)
@@ -20,9 +20,9 @@ describe('Day20', () => {
     });
   });
 
-  // describe('Real Data', () => {
-  //   it('reads the file', () => {
-  //     expect(lines).toEqual(['Hello', 'World']);
-  //   });
-  // });
+  describe('Real Data', () => {
+    it('reads the file', () => {
+      expect(new Day20(lines).solve()).toEqual(16937516456219);
+    });
+  });
 });
