@@ -5,9 +5,10 @@
 //  then there must be tiles that can go off perpendicular another 9 tiles
 
 export class Day20 {
-  private tiles = this.parseTiles(this.lines);
-  private sides = this.getSides();
-  private tileTypes = this.getTileTypes();
+  public tiles = this.parseTiles(this.lines);
+  public sides = this.getSides();
+  public tileTypes = this.getTileTypes();
+  public edgeLength = Math.sqrt(this.tiles.length);
 
   constructor(private lines: string[]) { }
 
