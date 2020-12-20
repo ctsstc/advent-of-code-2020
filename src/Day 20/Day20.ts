@@ -6,55 +6,13 @@
 
 export class Day20 {
   private tiles = this.parseTiles(this.lines);
+  private sides = this.getSides();
+  private tileTypes = this.getTileTypes();
 
   constructor(private lines: string[]) { }
 
   solve(): number {
-    const sides: Map<number, Tile[]> = new Map();
-
-    // console.log(this.tiles);
-
-    // Create Sides Collection
-    this.tiles.forEach(tile => {
-      tile.sides.forEach(side => {
-        if (sides.has(side.id)) {
-          const foundSides = sides.get(side.id);
-          if (!foundSides.includes(tile)) {
-            foundSides.push(tile);
-          }
-        }
-        else {
-          sides.set(side.id, [tile]);
-        }
-      });
-    });
-
-    // console.log(sides);
-    const translateTileType = {
-      0: 'insides',
-      1: 'edges',
-      2: 'corners'
-    }
-
-    const tilesUnmatchedSides = this.tiles.reduce((singleSides, tile) => {
-      const singleSidesCount = tile.sides.reduce((count, side) => {
-        if (sides.get(side.id).length == 1) count++;
-        return count;
-      }, 0);
-
-      const typeType = translateTileType[singleSidesCount];
-      singleSides[typeType].push(tile);
-
-      return singleSides;
-    }, {
-      insides: [],
-      edges: [],
-      corners: []
-    });
-
-    console.log(tilesUnmatchedSides);
-
-    const corners = tilesUnmatchedSides.corners;
+    const corners = this.tileTypes.corners;
     console.log(corners.map(x => x.id));
 
     return corners.reduce((total, tile) => total * tile.id, 1);
@@ -80,6 +38,50 @@ export class Day20 {
     });
 
     return tiles;
+  }
+
+  private getSides(): Map<number, Tile[]> {
+    const sides: Map<number, Tile[]> = new Map();
+
+    this.tiles.forEach(tile => {
+      tile.sides.forEach(side => {
+        if (sides.has(side.id)) {
+          const foundSides = sides.get(side.id);
+          if (!foundSides.includes(tile)) {
+            foundSides.push(tile);
+          }
+        }
+        else {
+          sides.set(side.id, [tile]);
+        }
+      });
+    });
+
+    return sides;
+  }
+
+  private getTileTypes(): { insides: Tile[], edges: Tile[], corners: Tile[]} {
+    const translateTileType = {
+      0: 'insides',
+      1: 'edges',
+      2: 'corners'
+    }
+
+    return this.tiles.reduce((singleSides, tile) => {
+      const singleSidesCount = tile.sides.reduce((count, side) => {
+        if (this.sides.get(side.id).length == 1) count++;
+        return count;
+      }, 0);
+
+      const typeType = translateTileType[singleSidesCount];
+      singleSides[typeType].push(tile);
+
+      return singleSides;
+    }, {
+      insides: [],
+      edges: [],
+      corners: []
+    });
   }
 }
 
