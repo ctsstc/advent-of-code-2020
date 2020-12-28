@@ -12,6 +12,21 @@ export class Day05 {
     return bigSeat.id;
   }
 
+  solve2(): number {
+    const orderedSeats = this.seatsParser().map(seat => seat.id).sort((a, b) => a - b);
+
+    for (let i = 0; i < orderedSeats.length - 1; i++) {
+      const a = orderedSeats[i];
+      const b = orderedSeats[i + 1];
+
+      if (b - a > 1) {
+        return a + 1;
+      }
+    }
+
+    return -1;
+  }
+
   seatsParser(): Seat[] {
     return this.lines.map(line => Day05.parseSeat(line));
   }

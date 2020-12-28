@@ -30,8 +30,8 @@ describe('Day00', () => {
   });
 
   describe('Real Data', () => {
-    it('reads the file', () => {
-      expect(new Day05(lines).solve()).toEqual(850);
+    it('finds our seat', () => {
+      expect(new Day05(lines).solve2()).toEqual(599);
     });
   });
 });
