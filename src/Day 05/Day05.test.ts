@@ -1,13 +1,11 @@
-
-// import { readFileSync } from 'fs';
-// import { join as pathJoin } from 'path';
-
+import { readFileSync } from 'fs';
+import { join as pathJoin } from 'path';
 import { Binizer, Day05 } from "./Day05";
 
-// const path = pathJoin(__dirname, 'input.txt');
-// const lines = readFileSync(path)
-//   .toString().trim()
-//   .split("\n");
+const path = pathJoin(__dirname, 'input.txt');
+const lines = readFileSync(path)
+  .toString().trim()
+  .split("\n");
 
 
 describe('Day00', () => {
@@ -31,9 +29,9 @@ describe('Day00', () => {
     });
   });
 
-  // describe('Real Data', () => {
-  //   it('reads the file', () => {
-  //     expect(lines).toEqual(['Hello', 'World']);
-  //   });
-  // });
+  describe('Real Data', () => {
+    it('reads the file', () => {
+      expect(new Day05(lines).solve()).toEqual(850);
+    });
+  });
 });
